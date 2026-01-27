@@ -11,14 +11,6 @@ services:
       - ollama_data:/root/.ollama
     environment:
       - OLLAMA_HOST=0.0.0.0
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    # Remova o bloco 'deploy' acima se sua VPS não tiver GPU NVIDIA
 
   # Interface Web opcional para interagir com Ollama
   open-webui:
