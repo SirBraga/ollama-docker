@@ -46,7 +46,7 @@ ollama-docker/
 | Serviço | URL | Descrição |
 |---------|-----|-----------|
 | Ollama API | `http://localhost:11434` | API REST do Ollama |
-| Open WebUI | `http://localhost:3000` | Interface web (ChatGPT-like) |
+| Open WebUI | `http://localhost:3002` | Interface web (ChatGPT-like) |
 
 ## 💻 Comandos Úteis
 
@@ -123,10 +123,10 @@ curl http://localhost:11434/api/tags
 ```bash
 # Permitir apenas acesso local ou via reverse proxy
 sudo ufw deny 11434
-sudo ufw deny 3000
+sudo ufw deny 3002
 
 # Ou permitir de IP específico
-sudo ufw allow from SEU_IP to any port 3000
+sudo ufw allow from SEU_IP to any port 3002
 ```
 
 ### Nginx Reverse Proxy (opcional)
@@ -137,7 +137,7 @@ server {
     server_name ollama.seudominio.com;
 
     location / {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3002;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';

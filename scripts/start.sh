@@ -14,4 +14,4 @@ docker compose -f "$COMPOSE_FILE" up -d
 
 echo "✅ Ollama iniciado!"
 echo "   - API: http://localhost:11434"
-echo "   - Web UI: http://localhost:3000"
+echo "   - Web UI: http://localhost:3002"
