@@ -9,6 +9,44 @@ services:
       - ollama_data:/root/.ollama
     environment:
       - OLLAMA_HOST=${OLLAMA_HOST:-0.0.0.0}
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Serviço para baixar modelos automaticamente
+  ollama-setup:
+    image: ollama/ollama:latest
+    container_name: ollama-setup
+    depends_on:
+      ollama:
+        condition: service_healthy
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_MODELS=${OLLAMA_MODELS:-llama3.2}
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        echo "Verificando modelos..."
+        MODELS_JSON=$$(curl -s http://ollama:11434/api/tags)
+        MODEL_COUNT=$$(echo "$$MODELS_JSON" | grep -o '"models":\[' | wc -l)
+        
+        if [ "$$MODEL_COUNT" -eq 0 ] || ! echo "$$MODELS_JSON" | grep -q '"models":\['; then
+          echo "Nenhum modelo encontrado. Baixando: $$OLLAMA_MODELS"
+          for model in $$OLLAMA_MODELS; do
+            echo "Baixando $$model..."
+            ollama pull $$model
+          done
+          echo "✓ Modelos baixados com sucesso"
+        else
+          echo "✓ Modelos já existem"
+        fi
+        echo "Setup concluído"
+    restart: "no"
 
   # Interface Web opcional para interagir com Ollama
   open-webui:
