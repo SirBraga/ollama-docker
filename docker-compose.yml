@@ -11,6 +11,7 @@ services:
       - ollama_data:/root/.ollama
     environment:
       - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_MODELS=${OLLAMA_MODELS:-llama3.2}
 
   # Interface Web opcional para interagir com Ollama
   open-webui:
