@@ -14,11 +14,11 @@ services:
       - OLLAMA_MAX_LOADED_MODELS=2         # Mantém até 2 modelos na RAM
       - OLLAMA_FLASH_ATTENTION=1           # Ativa Flash Attention (mais rápido)
       - OLLAMA_NUM_GPU=0                   # Força CPU (sem GPU)
-      - OLLAMA_NUM_THREAD=${OLLAMA_THREADS:-6}  # Threads da CPU (6 vCPUs)
+      - OLLAMA_NUM_THREAD=6                # Usa todas as 6 vCPUs
       - OLLAMA_KEEP_ALIVE=15m              # Mantém modelo carregado por 15min
     # Recursos liberados para VPS 32GB RAM / 6 vCPUs
     # Sem limites rígidos - deixa o Ollama usar o que precisar
-    shm_size: 8gb                          # Memória compartilhada aumentada
+    shm_size: 5gb                          # Memória compartilhada aumentada
     healthcheck:
       test: ["CMD", "ollama", "list"]
       interval: 30s
