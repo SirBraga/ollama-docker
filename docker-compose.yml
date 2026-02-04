@@ -10,8 +10,8 @@ services:
     environment:
       - OLLAMA_HOST=${OLLAMA_HOST:-0.0.0.0}
       # Otimizações de performance
-      - OLLAMA_NUM_PARALLEL=4              # Processa 4 requisições em paralelo
-      - OLLAMA_MAX_LOADED_MODELS=2         # Mantém até 2 modelos na RAM
+      - OLLAMA_NUM_PARALLEL=3              # Processa 4 requisições em paralelo
+      - OLLAMA_MAX_LOADED_MODELS=1         # Mantém até 2 modelos na RAM
       - OLLAMA_FLASH_ATTENTION=1           # Ativa Flash Attention (mais rápido)
       - OLLAMA_NUM_GPU=0                   # Força CPU (sem GPU)
       - OLLAMA_NUM_THREAD=6                # Usa todas as 6 vCPUs
