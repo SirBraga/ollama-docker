@@ -10,17 +10,15 @@ services:
     environment:
       - OLLAMA_HOST=${OLLAMA_HOST:-0.0.0.0}
       # Otimizações de performance
-      - OLLAMA_NUM_PARALLEL=2              # Processa 2 requisições em paralelo
-      - OLLAMA_MAX_LOADED_MODELS=1         # Mantém apenas 1 modelo na RAM
+      - OLLAMA_NUM_PARALLEL=4              # Processa 4 requisições em paralelo
+      - OLLAMA_MAX_LOADED_MODELS=2         # Mantém até 2 modelos na RAM
       - OLLAMA_FLASH_ATTENTION=1           # Ativa Flash Attention (mais rápido)
       - OLLAMA_NUM_GPU=0                   # Força CPU (sem GPU)
-      - OLLAMA_NUM_THREAD=${OLLAMA_THREADS:-4}  # Threads da CPU (ajuste conforme vCPUs)
-      - OLLAMA_KEEP_ALIVE=5m               # Mantém modelo carregado por 5min
-    # Limites de recursos para evitar swap e OOM
-    mem_limit: 6g                          # Limite de 6GB RAM (ajuste conforme VPS)
-    memswap_limit: 6g                      # Desabilita swap
-    cpu_count: 4                           # Usa 4 CPUs (ajuste conforme VPS)
-    shm_size: 2gb                          # Memória compartilhada para performance
+      - OLLAMA_NUM_THREAD=${OLLAMA_THREADS:-6}  # Threads da CPU (6 vCPUs)
+      - OLLAMA_KEEP_ALIVE=15m              # Mantém modelo carregado por 15min
+    # Recursos liberados para VPS 32GB RAM / 6 vCPUs
+    # Sem limites rígidos - deixa o Ollama usar o que precisar
+    shm_size: 8gb                          # Memória compartilhada aumentada
     healthcheck:
       test: ["CMD", "ollama", "list"]
       interval: 30s
